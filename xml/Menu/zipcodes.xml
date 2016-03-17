@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<menu>
-  <item>
-     <path>civicrm/ajax/zipcodes/autocomplete</path>
-     <page_callback>CRM_Zipcodes_Page_AJAX::autocomplete</page_callback>
-     <access_arguments>access CiviCRM</access_arguments>
-  </item>
-</menu>

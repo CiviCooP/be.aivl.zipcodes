@@ -118,12 +118,24 @@ function zipcodes_civicrm_alterContent(  &$content, $context, $tplName, &$object
     $locBlockNo = CRM_Utils_Request::retrieve('locno', 'Positive', CRM_Core_DAO::$_nullObject, TRUE, NULL, $_REQUEST);
     $template = CRM_Core_Smarty::singleton();
     $template->assign('blockId', $locBlockNo);
+    $template->assign('zipcodes', json_encode(zipcodes_get_all()));
     $content .= $template->fetch('CRM/Contact/Form/Edit/Address/postcode_js.tpl');
   }
   if ($object instanceof CRM_Contact_Form_Contact) {
     $template = CRM_Core_Smarty::singleton();
+    $template->assign('zipcodes', json_encode(zipcodes_get_all()));
     $content .= $template->fetch('CRM/Contact/Form/Edit/postcode_contact_js.tpl');
   }
+}
+
+function zipcodes_get_all() {
+  $location_qry_str = "SELECT zip, city FROM civicrm_zipcodes ORDER BY `zip`, `city` ASC";
+  $zipcodes = array();
+  $dao = CRM_Core_DAO::executeQuery($location_qry_str);
+  while ($dao->fetch()) {
+    $zipcodes[] = $dao->zip .' - '.$dao->city;
+  }
+  return $zipcodes;
 }
 
 function zipcodes_civicrm_pageRun( &$page ) {
