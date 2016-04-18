@@ -13,7 +13,7 @@ function zipcodes_getRowHtml(blockId, zipcodes) {
     var html = '<tr class="zipcodes_input_row"><td>';
     html = html + 'Postcode lookup<br>';
     html = html + '<select type="text" class="crm-select2 crm-form-select" id="zipcode_lookup_'+blockId+'" value="">';
-    html = html + '<option value=""> - Loopup a postcode - </option>';
+    html = html + '<option value=""> - Lookup a postcode - </option>';
     for(var i = 0; i < zipcodes.length; i++) {
         html = html + '<option value="'+zipcodes[i]+'">'+zipcodes[i]+'</option>';
     }
