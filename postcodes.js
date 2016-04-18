@@ -5,14 +5,19 @@ function init_postcodeBlock(blockId, address_table_id, zipcodes) {
     city_field_td.parent().prepend(postalcode_field_td);
     var first_row = city_field_td.parent().parent().parent().parent().parent();
     first_row.before(zipcodes_getRowHtml(blockId, zipcodes));
-    cj('#zipcode_lookup_'+blockId).crmSelect2();
+
+    cj('#zipcode_lookup_'+blockId).select2({
+        matcher: function(term, text) {
+            return text.toUpperCase().indexOf(term.toUpperCase())==0;
+        }
+    });
     zipcodes_addOnChange(blockId);
 }
 
 function zipcodes_getRowHtml(blockId, zipcodes) {
     var html = '<tr class="zipcodes_input_row"><td>';
     html = html + 'Postcode lookup<br>';
-    html = html + '<select type="text" class="crm-select2 crm-form-select" id="zipcode_lookup_'+blockId+'" value="">';
+    html = html + '<select type="text" class="crm-form-select" id="zipcode_lookup_'+blockId+'" style="width: 100%;" value="">';
     html = html + '<option value=""> - Loopup a postcode - </option>';
     for(var i = 0; i < zipcodes.length; i++) {
         html = html + '<option value="'+zipcodes[i]+'">'+zipcodes[i]+'</option>';
