@@ -8,7 +8,15 @@ function init_postcodeBlock(blockId, address_table_id, zipcodes) {
 
     cj('#zipcode_lookup_'+blockId).select2({
         matcher: function(term, text) {
-            return text.toUpperCase().indexOf(term.toUpperCase())==0;
+            // The text parameter looks like 2000 - Antewerpen.
+            // So try to split it into a zipcode and a city part.
+            // Split the zipcode text into a zipcode part
+            // splitted[0] and a city part splitted[1].
+            var splitted = text.split(" - ");
+            if ((splitted[0].toUpperCase().indexOf(term.toUpperCase())==0) || (splitted[1].toUpperCase().indexOf(term.toUpperCase())==0)) {
+                return true;
+            }
+            return false;
         }
     });
     zipcodes_addOnChange(blockId);
