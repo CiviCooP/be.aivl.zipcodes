@@ -22,7 +22,6 @@ function init_postcodeBlock(blockId, address_table_id, zipcodes) {
     zipcodes_addOnChange(blockId);
 
   cj('#address_' + blockId + '_country_id').change(function(e) {
-    console.log(cj('#address_' + blockId + '_country_id').val());
     if ((cj('#address_' + blockId + '_country_id').val()) == 1020) {
       cj('#zipcodes_input_row_'+blockId).removeClass('hiddenElement');
     } else {
