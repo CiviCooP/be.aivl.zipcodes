@@ -20,10 +20,19 @@ function init_postcodeBlock(blockId, address_table_id, zipcodes) {
         }
     });
     zipcodes_addOnChange(blockId);
+
+  cj('#address_' + blockId + '_country_id').change(function(e) {
+    console.log(cj('#address_' + blockId + '_country_id').val());
+    if ((cj('#address_' + blockId + '_country_id').val()) == 1020) {
+      cj('#zipcodes_input_row_'+blockId).removeClass('hiddenElement');
+    } else {
+      cj('#zipcodes_input_row_'+blockId).addClass('hiddenElement');
+    }
+  });
 }
 
 function zipcodes_getRowHtml(blockId, zipcodes) {
-    var html = '<tr class="zipcodes_input_row"><td>';
+    var html = '<tr class="zipcodes_input_row" id="zipcodes_input_row_'+blockId+'"><td>';
     html = html + 'Postcode lookup<br>';
     html = html + '<select type="text" class="crm-form-select" id="zipcode_lookup_'+blockId+'" style="width: 100%;" value="">';
     html = html + '<option value=""> - Lookup a postcode - </option>';
