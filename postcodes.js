@@ -28,6 +28,8 @@ function init_postcodeBlock(blockId, address_table_id, zipcodes) {
       cj('#zipcodes_input_row_'+blockId).addClass('hiddenElement');
     }
   });
+
+  cj('#address_' + blockId + '_country_id').trigger('change');
 }
 
 function zipcodes_getRowHtml(blockId, zipcodes) {
