@@ -22,9 +22,18 @@ function init_postcodeBlock(blockId, address_table_id, zipcodes) {
     zipcodes_addOnChange(blockId);
 
   cj('#address_' + blockId + '_country_id').change(function(e) {
+    var housenr_td = cj('#address_'+blockId+'_street_number').parent();
+    var street_name_td = cj('#address_'+blockId+'_street_name').parent();
     if ((cj('#address_' + blockId + '_country_id').val()) == 1020) {
+      if (typeof processAddressFields == 'function' && cj('#addressElements_'+blockId).length > 0) {
+        processAddressFields('addressElements', blockId, 1);
+        cj('#addressElements_' + blockId).show();
+        cj('#streetAddress_' + blockId).hide();
+      }
+      cj(street_name_td).after(cj(housenr_td));
       cj('#zipcodes_input_row_'+blockId).removeClass('hiddenElement');
     } else {
+      cj(housenr_td).after(cj(street_name_td));
       cj('#zipcodes_input_row_'+blockId).addClass('hiddenElement');
     }
   });

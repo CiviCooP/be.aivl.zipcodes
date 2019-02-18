@@ -99,6 +99,17 @@ function zipcodes_civicrm_caseTypes(&$caseTypes) {
 }
 
 /**
+ * Implementation hook_civicrm_pre
+ *
+ * Used to parse the address if the country is Belgium.
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_pre
+ */
+function zipcodes_civicrm_pre($op, $objectName, $id, &$params) {
+  CRM_Zipcodes_Parser::pre($op, $objectName, $id, $params);
+}
+
+/**
  * Implementation of hook_civicrm_alterSettingsFolders
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_alterSettingsFolders
@@ -110,6 +121,13 @@ function zipcodes_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
 function zipcodes_civicrm_buildForm($formName, &$form) {
   if ($formName == 'CRM_Contact_Form_Contact') {
     CRM_Core_Resources::singleton()->addScriptFile('be.aivl.zipcodes', 'postcodes.js');
+    CRM_Zipcodes_Parser::buildAddressForm($form);
+    CRM_Zipcodes_Parser::setStreetAddressOnForm($form);
+
+  }
+  if ($formName == 'CRM_Contact_Form_Inline_Address') {
+    CRM_Zipcodes_Parser::buildAddressForm($form);
+    CRM_Zipcodes_Parser::setStreetAddressOnForm($form);
   }
 }
 
