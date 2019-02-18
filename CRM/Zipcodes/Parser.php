@@ -38,13 +38,17 @@ class CRM_Zipcodes_Parser {
     $allAddressFields = json_decode($allAddressFields, TRUE);
     foreach($values['address'] as $locBlockNo => $address) {
       if ($address['country_id'] == 1020) {
-        $allAddressFields['street_address_' . $locBlockNo] = $address['street_address'];
+        if ($allAddressFields && isset($allAddressFields['street_address_' . $locBlockNo]) && isset($address['street_address'])) {
+          $allAddressFields['street_address_' . $locBlockNo] = $address['street_address'];
+        }
         $defaults = array();
         $defaults['address'][$locBlockNo]['street_address'] = $address['street_address'];
         $form->setDefaults($defaults);
       }
     }
-    $form->assign('allAddressFieldValues', json_encode($allAddressFields));
+    if ($allAddressFields) {
+      $form->assign('allAddressFieldValues', json_encode($allAddressFields));
+    }
   }
 
   /**
@@ -64,8 +68,10 @@ class CRM_Zipcodes_Parser {
 
     $submittedValues = $form->exportValues();
     foreach($submittedValues['address'] as $locBlockNo => $address) {
-      $street_unit = $address['street_unit'];
-      $parser->street_units[] = $street_unit;
+      if (isset($address['country_id']) && $address['country_id'] == 1020) {
+        $street_unit = $address['street_unit'];
+        $parser->street_units[] = $street_unit;
+      }
     }
 
   }
