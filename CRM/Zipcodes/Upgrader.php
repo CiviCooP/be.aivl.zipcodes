@@ -15,6 +15,11 @@ class CRM_Zipcodes_Upgrader extends CRM_Zipcodes_Upgrader_Base {
     $this->executeSqlFile('sql/install.sql');
   }
 
+  public function upgrade_1001() {
+    CRM_Core_DAO::executeQuery("ALTER TABLE civicrm_zipcodes CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci");
+    return TRUE;
+  }
+
   /**
    * Example: Run an external SQL script when the module is uninstalled
    *

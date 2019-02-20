@@ -15,7 +15,7 @@ CREATE TABLE `civicrm_zipcodes` (
   KEY `latitude` (`latitude`),
   KEY `longitude` (`longitude`),
   KEY `country` (`country`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Location.module zipcode database.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_unicode_ci COMMENT='Location.module zipcode database.';
 
 --
 -- Dumping data for table `civicrm_zipcodes`

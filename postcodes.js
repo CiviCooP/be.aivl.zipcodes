@@ -19,7 +19,7 @@ function init_postcodeBlock(blockId, address_table_id, zipcodes) {
             return false;
         }
     });
-    zipcodes_addOnChange(blockId);
+    zipcodes_addOnChange(blockId, zipcodes);
 
   cj('#address_' + blockId + '_country_id').change(function(e) {
     var housenr_td = cj('#address_'+blockId+'_street_number').parent();
@@ -46,27 +46,25 @@ function zipcodes_getRowHtml(blockId, zipcodes) {
     html = html + 'Postcode lookup<br>';
     html = html + '<select type="text" class="crm-form-select" id="zipcode_lookup_'+blockId+'" style="width: 100%;" value="">';
     html = html + '<option value=""> - Lookup a postcode - </option>';
-    for(var i = 0; i < zipcodes.length; i++) {
-        html = html + '<option value="'+zipcodes[i]+'">'+zipcodes[i]+'</option>';
+    for(var zipcode in zipcodes) {
+        html = html + '<option value="'+zipcodes[zipcode].zip+'">'+zipcodes[zipcode].zip +  ' - ' + zipcodes[zipcode].city+'</option>';
     }
     html = html + '</select>';
     html = html + '</td><td></td><td></td></tr>';
     return html;
 }
 
-function zipcodes_addOnChange(blockId) {
+function zipcodes_addOnChange(blockId, zipcodes) {
     cj('#zipcode_lookup_'+blockId).change(function (e) {
-        zipcodes_fill(blockId);
+        zipcodes_fill(blockId, zipcodes);
     });
 }
 
-function zipcodes_fill(blockId) {
-    var value = cj('#zipcode_lookup_'+blockId).val();
-    var values = value.split(' - ');
-    if(values[0] && values[1]) {
-        cj('#address_' + blockId + '_postal_code').val(values[0]);
-        cj('#address_' + blockId + '_city').val(values[1]);
-    }
+function zipcodes_fill(blockId, zipcodes) {
+  var zipcode = cj('#zipcode_lookup_'+blockId).val();
+  cj('#address_' + blockId + '_postal_code').val(zipcodes[zipcode].zip);
+  cj('#address_' + blockId + '_city').val(zipcodes[zipcode].city);
+  cj('#address_' + blockId + '_state_province_id').val(zipcodes[zipcode].state).trigger('change');
 }
 
 /**
@@ -76,17 +74,3 @@ function zipcodes_fill(blockId) {
 function zipcodes_reset() {
     cj('.zipcodes_input_row').remove();
 }
-
-/*
- * The code sniplet below makes sure that whenever a new address block is added
- * the reset functions are run
- */
-cj(function() {
-    cj.each(['show', 'hide'], function (i, ev) {
-        var el = cj.fn[ev];
-        cj.fn[ev] = function () {
-          this.trigger(ev);
-          return el.apply(this, arguments);
-        };
-      });
-});

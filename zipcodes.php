@@ -147,11 +147,15 @@ function zipcodes_civicrm_alterContent(  &$content, $context, $tplName, &$object
 }
 
 function zipcodes_get_all() {
-  $location_qry_str = "SELECT zip, city FROM civicrm_zipcodes ORDER BY `zip`, `city` ASC";
+  $location_qry_str = "
+    SELECT zip, city, civicrm_state_province.id as state_province_id
+    FROM civicrm_zipcodes
+    INNER JOIN civicrm_state_province ON civicrm_zipcodes.state = civicrm_state_province.abbreviation AND country_id = 1020 
+    ORDER BY `zip`, `city` ASC";
   $zipcodes = array();
   $dao = CRM_Core_DAO::executeQuery($location_qry_str);
   while ($dao->fetch()) {
-    $zipcodes[] = $dao->zip .' - '.$dao->city;
+    $zipcodes[$dao->zip] = array('zip' => $dao->zip, 'city' => $dao->city, 'state' => $dao->state_province_id);
   }
   return $zipcodes;
 }
