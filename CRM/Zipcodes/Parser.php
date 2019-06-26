@@ -100,17 +100,19 @@ class CRM_Zipcodes_Parser {
         $queryParams[1] = array($params['postal_code'], 'String');
         $params['state_province_id'] = CRM_Core_DAO::singleValueQuery($query, $queryParams);
       }
-      $query = "
+      if (!empty($params['postal_code'])) {
+        $query = "
         SELECT city
         FROM civicrm_zipcodes
         INNER JOIN civicrm_state_province ON civicrm_zipcodes.state = civicrm_state_province.abbreviation AND country_id = 1020 
         WHERE zip = %1
         ORDER BY `zip`, `city` ASC
       ";
-      $queryParams[1] = array($params['postal_code'], 'String');
-      $city = CRM_Core_DAO::singleValueQuery($query, $queryParams);
-      if ($city) {
-        $params['city'] = $city;
+        $queryParams[1] = [$params['postal_code'], 'String'];
+        $city = CRM_Core_DAO::singleValueQuery($query, $queryParams);
+        if ($city) {
+          $params['city'] = $city;
+        }
       }
     }
   }
