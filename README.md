@@ -1,3 +1,5 @@
+Extension was moved to: https://lab.civicrm.org/partners/civicoop/belgianpostcodes
+
 # Postcode lookup voor Belgium.
 
 This extension adds functionality to lookup city and province after entering a postcode.
