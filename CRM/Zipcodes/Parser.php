@@ -154,7 +154,7 @@ class CRM_Zipcodes_Parser {
           $params['street_unit'] = $streetParts['street_unit'];
         }
         $params['street_address'] = $this->glueStreetAddressBE($streetParts);
-      } elseif (!empty($params['street_name']) && !empty($params['street_number'])) {
+      } elseif (!empty($params['street_name']) || !empty($params['street_number'])) {
         $params['street_address'] = $this->glueStreetAddressBE($params);
       }
     }
